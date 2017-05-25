@@ -17,6 +17,7 @@ We seek to provide a functional rest-api based webapp to access various dictiona
 ## Motivations (in decreasing order of importance)
 * Any web developer should be able to make simple REST-API calls to our backend to easily get entries for a lot of dictionaries (most of whom aren't already available in such manner).
   * Imagine being able to highlight a word and use the context menu while reading a text to get it's meanings, grammatical info (linga, vibhakti, vachana, puruSha) etc..
+  * Imagine being able to make simple commentaries (like [this](http://www.valmikiramayan.net/utf8/baala/sarga3/bala_3_frame.htm)) with a few mouse clicks per word (selecting the meaning most appropriate to the context).
 * End users ( sanskrit students and scholars ) should be able to thoroughly investigate a term in the dictionaries using just a browser, without having to install any software.
 * End users should be able to point out errors (eg. via a link).
 * Users should be able to log in and submit new words to a "user dictionary" (as in <sanskritdictionary.de> or wiktionary, but using convenience of openId and less fuss.)
