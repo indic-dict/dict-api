@@ -49,7 +49,7 @@ We seek to provide a functional rest-api based webapp to access various dictiona
 ```
 
 ## Web API (in decreasing order of importance)
-In the ideal case, we would have the following:
+Actually, whatever couchdb provides is enough. In the ideal case, we would have the following (from the view of simplicity):
 * `/words/xyz` yields the appropriate entry if it exists; or returns a list of n=40 words starting with that substring 'xyz' - from all dictionaries.
 * `/dictionaries/dictionaryId/words/xyz` - same as above, restricted to one dictionary.
 * `/dictionaries/dictionaryCategory/words/xyz` does the same - except for all dictionaries in a given category.
