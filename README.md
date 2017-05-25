@@ -54,7 +54,11 @@ In the ideal case, we would have the following:
 # Implementation
 ## Ideas
 * Use no-sql database with good replication characteristics, like couchdb. couchdb already provides some simple API, and it is extensible.
+* Leverage the rest api that couchdb provides to the extant possible.
 * Use offline catching intelligently to minimize communicating with the server. Caching ideas:
   * Headword-dictionary mappings
+
+# Design choices
+
 
 # Deployment
