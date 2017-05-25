@@ -4,6 +4,8 @@ We seek to provide a functional rest-api based webapp to access various dictiona
 ## Motivations (in decreasing order of importance)
 * Any web developer should be able to make simple REST-API calls to our backend to easily get entries for a lot of dictionaries (most of whom aren't already available in such manner). Imagine being able to highlight a word and use the context menu while reading a text to get it's meanings, grammatical info (linga, vibhakti, vachana, puruSha) etc..
 * End users ( sanskrit students and scholars ) should be able to thoroughly investigate a term in the dictionaries using just a browser, without having to install any software.
+* End users should be able to point out errors (eg. via a link).
+* Users should be able to log in and submit new words to a "user dictionary" (as in <sanskritdictionary.de> or wiktionary, but using convenience of openId and less fuss.)
 
 # Desiderata
 ## Intro to the data
@@ -27,7 +29,8 @@ We seek to provide a functional rest-api based webapp to access various dictiona
 "authors": ["अमरसिंहः"],
 "licenseLink": "http://some-link",
 "canonicalSource": "http://some-link",
-"categories": ["sanskrit to sanskrit", "thesaurus"]
+"categories": ["sanskrit to sanskrit", "thesaurus"],
+"issuePage": "https://github.com/sanskrit-coders/stardict-sanskrit/issues"
 }
 ```
 
@@ -49,6 +52,9 @@ In the ideal case, we would have the following:
 * Results:
   * A term can appear in many dictionaries, the user should be able to quickly navigate to the dictionary or dictionary-category of his choice.
   * Some history (what words were recently looked up).
+* Stats:
+  * Collect site use stats (eg. using google analytics).
+  * Submit lookup stats to the 
 * Example from Goldendict (desktop) [here](http://imgur.com/a/Tj6OZ?).
 
 
