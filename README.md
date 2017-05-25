@@ -38,8 +38,20 @@ In the ideal case, we would have the following:
 * `/dictionaries/dictionaryCategory/words/xyz` does the same - except for all dictionaries in a given category.
 
 ## UI (in decreasing order of importance)
-* User is able to search for a word in multiple dictionaries.
-* As a user types, a dropdown of suggestions appear, thereby avoiding unnecessary strain.
-* User can restrict search to certain dictionaries or dictionary categories.
+* Searching:
+  * User is able to search for a word in multiple dictionaries.
+  * As a user types, a dropdown of suggestions appear, thereby avoiding unnecessary strain.
+  * User can restrict search to certain dictionaries or dictionary categories.
+* Results:
+  * A term can appear in many dictionaries, the user should be able to quickly navigate to the dictionary or dictionary-category of his choice.
+  * Some history (what words were recently looked up).
+* Example from Goldendict (desktop) [here](http://imgur.com/a/Tj6OZ?).
+
+
+# Implementation
+## Ideas
+* Use no-sql database with good replication characteristics, like couchdb. couchdb already provides some simple API, and it is extensible.
 * Use offline catching intelligently to minimize communicating with the server. Caching ideas:
   * Headword-dictionary mappings
+
+# Deployment
