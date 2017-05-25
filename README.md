@@ -42,6 +42,8 @@ In the ideal case, we would have the following:
   * User is able to search for a word in multiple dictionaries.
   * As a user types, a dropdown of suggestions appear, thereby avoiding unnecessary strain.
   * User can restrict search to certain dictionaries or dictionary categories.
+  * Complex (ok if slower) searches based on substrings (or eventually regular expressions), matching headwords.
+    * Complex search within entries.
 * Results:
   * A term can appear in many dictionaries, the user should be able to quickly navigate to the dictionary or dictionary-category of his choice.
   * Some history (what words were recently looked up).
