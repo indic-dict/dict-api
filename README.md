@@ -33,9 +33,10 @@ We seek to provide a functional rest-api based webapp to access various dictiona
 
 ## Web API (in decreasing order of importance)
 In the ideal case, we would have the following:
-* `/words/xyz` does the same accross all available dictionaries.
-* `/dictionaries/dictionaryId/words/xyz` yields the appropriate entry if it exists; or returns a list of n=40 words starting with that substring 'xyz'.
+* `/words/xyz` yields the appropriate entry if it exists; or returns a list of n=40 words starting with that substring 'xyz' - from all dictionaries.
+* `/dictionaries/dictionaryId/words/xyz` - same as above, restricted to one dictionary.
 * `/dictionaries/dictionaryCategory/words/xyz` does the same - except for all dictionaries in a given category.
+* `/words_with_substring/xyz` etc..
 
 ## UI (in decreasing order of importance)
 * Should be mobile friendly, with flowing text.
