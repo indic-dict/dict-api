@@ -38,6 +38,7 @@ In the ideal case, we would have the following:
 * `/dictionaries/dictionaryCategory/words/xyz` does the same - except for all dictionaries in a given category.
 
 ## UI (in decreasing order of importance)
+* Should be mobile friendly, with flowing text.
 * Searching:
   * User is able to search for a word in multiple dictionaries.
   * As a user types, a dropdown of suggestions appear, thereby avoiding unnecessary strain.
