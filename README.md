@@ -75,6 +75,7 @@ Actually, whatever couchdb provides is enough.
 * Querying dictionary entries: use the dict_entries database and the index_headwords index
   * Get a particular dictionary entry: [link](http://vedavaapi.org:5984/dict_entries/stardict-sanskrit__sa-head__sa-entries__amara-onto__amara-onto__0).
   * Get a list of 10 entries starting with कटि : [get all](http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=10&reduce=false&inclusive_end=true&start_key=%22%E0%A4%95%E0%A4%9F%E0%A4%BF%22)
+    * This also gives you the offset for the starting result (useful for randomizing, stats etc..).
 
 ### General reference and tips
 * couchdb [documentation](http://docs.couchdb.org/en/2.0.0/api/database/find.html) for the general find call.
@@ -114,7 +115,8 @@ In the ideal case, we would have the following (from the view of simplicity) (in
   * Headword-dictionary mappings
 
 # Design choices
-
+* Pouchdb has size limitations due to its use of JS indexed Db, so we cannot use it heavily.
+* Using React + Reflux for example frontend because of its utility and kakella's familiarity.
 
 # Deployment
 ## Database repilicas
@@ -124,4 +126,5 @@ In the ideal case, we would have the following (from the view of simplicity) (in
 
 ## UI deployments
 * You can use it right off github!
-* You want to host copies and make things faster for folks in your geographical area? Just open an issue in this project and let us know.
+* You want to host copies (or even develop a superior UI?) and make things faster for folks in your geographical area? Just open an issue in this project and let us know. We'd love to list it here.
+
