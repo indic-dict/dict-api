@@ -22,17 +22,32 @@ We seek to provide a functional rest-api based webapp to access various dictiona
 * End users should be able to point out errors (eg. via a link).
 * Users should be able to log in and submit new words to a "user dictionary" (as in <sanskritdictionary.de> or wiktionary, but using convenience of openId and less fuss.)
 
-# Desiderata
+# Detailed design
 ## Intro to the data
 * We have several projects which collect dictionaries for various languages ([link](https://github.com/search?q=org%3Asanskrit-coders+stardict)). These dictionaries are further subcategorized by topic, entry language etc.. (eg. Ayurveda, sa-german etc..).
 * Simplest programmatic current way to access dictionary data is through babylon files ([some here](https://github.com/search?utf8=%E2%9C%93&q=user%3Asanskrit-coders+extension%3Ababylon_final&type=Code) - open one to check out the format).
 * We ultimately have the (extensible) JSON structure exemplified below for each entry:
 ```
 {
-"headwords" : ["svar","स्वर्"],
-"dictionaryId": "amarakosha",
-"locationLink": "http://some-link-to-a-scanned-page",
-"entry": "स्वर्ग पुं। <br><br> स्वर्गः <br><br> समानार्थक:स्वर्,स्वर्ग,नाक,त्रिदिव,त्रिदशालय,सुरलोक,द्यो,दिव्,त्रिविष्टप,गो <br><br> 1।1।6।1।2 <br><br> स्वरव्ययं स्वर्गनाकत्रिदिवत्रिदशालयः। सुरलोको द्योदिवौ द्वे स्त्रियां क्लीबे त्रिविष्टपम्.।  <br><br> अवयव : देवसभा <br><br> सम्बन्धि2 : देवः <br><br> पदार्थ-विभागः : , द्रव्यम्, पृथ्वी, अचलनिर्जीवः, स्थानम्, अलौकिकस्थानम्"
+  "_id": "stardict-sanskrit__sa-head__sa-entries__vAchaspatyam-sa__vAchaspatyam-sa__22721",
+  "_rev": "1-bce5a5d86829ba751b32be7839771d42",
+  "entry": {
+    "text": "{@कटि(टी)@}¦ स्त्री कट-इन्। <br><br>१ श्रोणिदेशे(काकांल)। कृदिकारान्तत्वात् वा ङीप्। <br>“सहासनमभिप्रेप्सुरुत्कृष्टस्पाप्यपकृ-ष्टजः। अट्यां कृताङ्कोनिर्वास्यः” मनुः। <br>“कटिश्च तस्या-तिकृतप्रमाणा” भा॰ व॰ <br><br>१० <br><br>५४ । <br>“सव्येन च कटीदेशेगृह्य वाससि पाण्डवः” भा॰ आ॰ <br><br>१६ <br><br>३ <br>“कटिस्तु हरतेमनः” सा॰ द॰। तत्र तच्छब्दस्य ग्राम्यत्वमुक्तम्। ङीबन्तः<br><br>२ पिप्पल्पां स्त्री मेदि॰"
+  },
+  "jsonClass": "DictEntry",
+  "location": {
+    "dictionaryId": "stardict-sanskrit__sa-head__sa-entries__vAchaspatyam-sa__vAchaspatyam-sa",
+    "entryNumber": 22721,
+    "jsonClass": "DictLocation",
+  },
+  "headwords": [
+    {
+      "text": "kaTi"
+    },
+    {
+      "text": "कटि"
+    }
+  ]
 }
 ```
 
@@ -50,7 +65,15 @@ We seek to provide a functional rest-api based webapp to access various dictiona
 ```
 
 ## Web API (in decreasing order of importance)
-Actually, whatever couchdb provides is enough. In the ideal case, we would have the following (from the view of simplicity):
+Actually, whatever couchdb provides is enough. 
+* Get a particular dictionary entry: [link](http://vedavaapi.org:5984/dict_entries/stardict-sanskrit__sa-head__sa-entries__amara-onto__amara-onto__0).
+* Get a list of 10 entries starting with  : [get all](http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=10&reduce=false&inclusive_end=true&start_key=%22%E0%A4%95%E0%A4%9F%E0%A4%BF%22)
+
+### General reference and tips
+* couchdb [documentation](http://docs.couchdb.org/en/2.0.0/api/database/find.html) for the general find call.
+
+### Potential simplification
+In the ideal case, we would have the following (from the view of simplicity):
 * `/words/xyz` yields the appropriate entry if it exists; or returns a list of n=40 words starting with that substring 'xyz' - from all dictionaries.
 * `/dictionaries/dictionaryId/words/xyz` - same as above, restricted to one dictionary.
 * `/dictionaries/dictionaryCategory/words/xyz` does the same - except for all dictionaries in a given category.
@@ -69,7 +92,7 @@ Actually, whatever couchdb provides is enough. In the ideal case, we would have 
   * Some history (what words were recently looked up).
 * Stats:
   * Collect site use stats (eg. using google analytics).
-  * Submit lookup stats to the 
+  * Submit lookup stats to the server.
 * Example from Goldendict (desktop) [here](http://imgur.com/a/Tj6OZ?).
 
 
@@ -84,3 +107,11 @@ Actually, whatever couchdb provides is enough. In the ideal case, we would have 
 
 
 # Deployment
+## Database repilicas
+* You want to host a repilica and make things faster for folks in your geographical area? Just open an issue in this project and let us know.
+* Ahmedabad, IN <http://vedavaapi.org:5984/dict_entries/_all_docs>
+* Bay area, USA (dev machine, unstable) <http://vvasuki.hopto.org:5984/dict_entries/_all_docs>
+
+## UI deployments
+* You can use it right off github!
+* You want to host copies and make things faster for folks in your geographical area? Just open an issue in this project and let us know.
