@@ -1,15 +1,19 @@
-Table of content generated using this app
+[Table of contents generated using this app](https://tableofcontents.herokuapp.com)
 
 - [Introduction](#introduction)
    - [Motivations (in decreasing order of importance)](#motivations-(in-decreasing-order-of-importance))
-- [Desiderata](#desiderata)
+- [Detailed design](#detailed-design)
    - [Intro to the data](#intro-to-the-data)
    - [Web API (in decreasing order of importance)](#web-api-(in-decreasing-order-of-importance))
+     - [General reference and tips](#general-reference-and-tips)
+     - [Potential simplification](#potential-simplification)
    - [UI (in decreasing order of importance)](#ui-(in-decreasing-order-of-importance))
 - [Implementation](#implementation)
    - [Ideas](#ideas)
 - [Design choices](#design-choices)
 - [Deployment](#deployment)
+   - [Database repilicas](#database-repilicas)
+   - [UI deployments](#ui-deployments)
 
 # Introduction
 We seek to provide a functional rest-api based webapp to access various dictionaries stored in a database. We intend for the database to serve a huge, eclectic mix of dictionaries which are not already available in a single spot.
