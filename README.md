@@ -18,7 +18,9 @@
 # Introduction
 We seek to provide a functional rest-api based webapp to access various dictionaries stored in a database. We intend for the database to serve a huge, eclectic mix of dictionaries which are not already available in a single spot.
 
-## Motivations (in decreasing order of importance)
+## Motivations
+(in decreasing order of importance)
+
 * Any web developer should be able to make simple REST-API calls to our backend to easily get entries for a lot of dictionaries (most of whom aren't already available in such manner).
   * Imagine being able to highlight a word and use the context menu while reading a text to get it's meanings, grammatical info (linga, vibhakti, vachana, puruSha) etc..
   * Imagine being able to make simple commentaries (like [this](http://www.valmikiramayan.net/utf8/baala/sarga3/bala_3_frame.htm)) with a few mouse clicks per word (selecting the meaning most appropriate to the context).
@@ -76,14 +78,17 @@ Actually, whatever couchdb provides is enough.
 ### General reference and tips
 * couchdb [documentation](http://docs.couchdb.org/en/2.0.0/api/database/find.html) for the general find call.
 
-### Potential simplification  (in decreasing order of importance)
-In the ideal case, we would have the following (from the view of simplicity):
+### Potential simplification
+In the ideal case, we would have the following (from the view of simplicity) (in decreasing order of importance):
+
 * `/words/xyz` yields the appropriate entry if it exists; or returns a list of n=40 words starting with that substring 'xyz' - from all dictionaries.
 * `/dictionaries/dictionaryId/words/xyz` - same as above, restricted to one dictionary.
 * `/dictionaries/dictionaryCategory/words/xyz` does the same - except for all dictionaries in a given category.
 * `/words_with_substring/xyz` etc..
 
-## UI (in decreasing order of importance)
+## UI
+(in decreasing order of importance)
+
 * Should be mobile friendly, with flowing text.
 * Searching:
   * User is able to search for a word in multiple dictionaries.
