@@ -74,7 +74,7 @@ We seek to provide a functional rest-api based webapp to access various dictiona
 Actually, whatever couchdb provides is enough. 
 * Querying dictionary entries: use the dict_entries database and the index_headwords index
   * Get a particular dictionary entry: [link](http://vedavaapi.org:5984/dict_entries/stardict-sanskrit__sa-head__sa-entries__amara-onto__amara-onto__0).
-  * Get a list of 10 entries starting with कटि : [get all](http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=10&reduce=false&inclusive_end=true&start_key=%22%E0%A4%95%E0%A4%9F%E0%A4%BF%22)
+  * Get a list of 10 entries starting with कटि : [get all](http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=10&reduce=false&inclusive_end=true&include_docs=true&start_key=%22%E0%A4%95%E0%A4%9F%E0%A4%BF%22)
     * This also gives you the offset for the starting result (useful for randomizing, stats etc..).
 
 ### General reference and tips
