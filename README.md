@@ -1,20 +1,26 @@
-Table of content generated using this app
+[Table of contents generated using this app](https://tableofcontents.herokuapp.com)
 
 - [Introduction](#introduction)
-   - [Motivations (in decreasing order of importance)](#motivations-(in-decreasing-order-of-importance))
-- [Desiderata](#desiderata)
+   - [Motivations](#motivations)
+- [Detailed design](#detailed-design)
    - [Intro to the data](#intro-to-the-data)
-   - [Web API (in decreasing order of importance)](#web-api-(in-decreasing-order-of-importance))
-   - [UI (in decreasing order of importance)](#ui-(in-decreasing-order-of-importance))
+   - [Web API](#web-api)
+     - [General reference and tips](#general-reference-and-tips)
+     - [Potential simplification](#potential-simplification)
+   - [UI](#ui)
 - [Implementation](#implementation)
    - [Ideas](#ideas)
 - [Design choices](#design-choices)
 - [Deployment](#deployment)
+   - [Database repilicas](#database-repilicas)
+   - [UI deployments](#ui-deployments)
 
 # Introduction
 We seek to provide a functional rest-api based webapp to access various dictionaries stored in a database. We intend for the database to serve a huge, eclectic mix of dictionaries which are not already available in a single spot.
 
-## Motivations (in decreasing order of importance)
+## Motivations
+(in decreasing order of importance)
+
 * Any web developer should be able to make simple REST-API calls to our backend to easily get entries for a lot of dictionaries (most of whom aren't already available in such manner).
   * Imagine being able to highlight a word and use the context menu while reading a text to get it's meanings, grammatical info (linga, vibhakti, vachana, puruSha) etc..
   * Imagine being able to make simple commentaries (like [this](http://www.valmikiramayan.net/utf8/baala/sarga3/bala_3_frame.htm)) with a few mouse clicks per word (selecting the meaning most appropriate to the context).
@@ -22,17 +28,32 @@ We seek to provide a functional rest-api based webapp to access various dictiona
 * End users should be able to point out errors (eg. via a link).
 * Users should be able to log in and submit new words to a "user dictionary" (as in <sanskritdictionary.de> or wiktionary, but using convenience of openId and less fuss.)
 
-# Desiderata
+# Detailed design
 ## Intro to the data
 * We have several projects which collect dictionaries for various languages ([link](https://github.com/search?q=org%3Asanskrit-coders+stardict)). These dictionaries are further subcategorized by topic, entry language etc.. (eg. Ayurveda, sa-german etc..).
 * Simplest programmatic current way to access dictionary data is through babylon files ([some here](https://github.com/search?utf8=%E2%9C%93&q=user%3Asanskrit-coders+extension%3Ababylon_final&type=Code) - open one to check out the format).
 * We ultimately have the (extensible) JSON structure exemplified below for each entry:
 ```
 {
-"headwords" : ["svar","स्वर्"],
-"dictionaryId": "amarakosha",
-"locationLink": "http://some-link-to-a-scanned-page",
-"entry": "स्वर्ग पुं। <br><br> स्वर्गः <br><br> समानार्थक:स्वर्,स्वर्ग,नाक,त्रिदिव,त्रिदशालय,सुरलोक,द्यो,दिव्,त्रिविष्टप,गो <br><br> 1।1।6।1।2 <br><br> स्वरव्ययं स्वर्गनाकत्रिदिवत्रिदशालयः। सुरलोको द्योदिवौ द्वे स्त्रियां क्लीबे त्रिविष्टपम्.।  <br><br> अवयव : देवसभा <br><br> सम्बन्धि2 : देवः <br><br> पदार्थ-विभागः : , द्रव्यम्, पृथ्वी, अचलनिर्जीवः, स्थानम्, अलौकिकस्थानम्"
+  "_id": "stardict-sanskrit__sa-head__sa-entries__vAchaspatyam-sa__vAchaspatyam-sa__22721",
+  "_rev": "1-bce5a5d86829ba751b32be7839771d42",
+  "entry": {
+    "text": "{@कटि(टी)@}¦ स्त्री कट-इन्। <br><br>१ श्रोणिदेशे(काकांल)। कृदिकारान्तत्वात् वा ङीप्। <br>“सहासनमभिप्रेप्सुरुत्कृष्टस्पाप्यपकृ-ष्टजः। अट्यां कृताङ्कोनिर्वास्यः” मनुः। <br>“कटिश्च तस्या-तिकृतप्रमाणा” भा॰ व॰ <br><br>१० <br><br>५४ । <br>“सव्येन च कटीदेशेगृह्य वाससि पाण्डवः” भा॰ आ॰ <br><br>१६ <br><br>३ <br>“कटिस्तु हरतेमनः” सा॰ द॰। तत्र तच्छब्दस्य ग्राम्यत्वमुक्तम्। ङीबन्तः<br><br>२ पिप्पल्पां स्त्री मेदि॰"
+  },
+  "jsonClass": "DictEntry",
+  "location": {
+    "dictionaryId": "stardict-sanskrit__sa-head__sa-entries__vAchaspatyam-sa__vAchaspatyam-sa",
+    "entryNumber": 22721,
+    "jsonClass": "DictLocation",
+  },
+  "headwords": [
+    {
+      "text": "kaTi"
+    },
+    {
+      "text": "कटि"
+    }
+  ]
 }
 ```
 
@@ -49,14 +70,27 @@ We seek to provide a functional rest-api based webapp to access various dictiona
 }
 ```
 
-## Web API (in decreasing order of importance)
-Actually, whatever couchdb provides is enough. In the ideal case, we would have the following (from the view of simplicity):
+## Web API
+Actually, whatever couchdb provides is enough. 
+* Querying dictionary entries: use the dict_entries database and the index_headwords index
+  * Get a particular dictionary entry: [link](http://vedavaapi.org:5984/dict_entries/stardict-sanskrit__sa-head__sa-entries__amara-onto__amara-onto__0).
+  * Get a list of 10 entries starting with कटि : [get all](http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=10&reduce=false&inclusive_end=true&include_docs=true&start_key=%22%E0%A4%95%E0%A4%9F%E0%A4%BF%22)
+    * This also gives you the offset for the starting result (useful for randomizing, stats etc..).
+
+### General reference and tips
+* couchdb [documentation](http://docs.couchdb.org/en/2.0.0/api/database/find.html) for the general find call.
+
+### Potential simplification
+In the ideal case, we would have the following (from the view of simplicity) (in decreasing order of importance):
+
 * `/words/xyz` yields the appropriate entry if it exists; or returns a list of n=40 words starting with that substring 'xyz' - from all dictionaries.
 * `/dictionaries/dictionaryId/words/xyz` - same as above, restricted to one dictionary.
 * `/dictionaries/dictionaryCategory/words/xyz` does the same - except for all dictionaries in a given category.
 * `/words_with_substring/xyz` etc..
 
-## UI (in decreasing order of importance)
+## UI
+(in decreasing order of importance)
+
 * Should be mobile friendly, with flowing text.
 * Searching:
   * User is able to search for a word in multiple dictionaries.
@@ -69,7 +103,7 @@ Actually, whatever couchdb provides is enough. In the ideal case, we would have 
   * Some history (what words were recently looked up).
 * Stats:
   * Collect site use stats (eg. using google analytics).
-  * Submit lookup stats to the 
+  * Submit lookup stats to the server.
 * Example from Goldendict (desktop) [here](http://imgur.com/a/Tj6OZ?).
 
 
@@ -81,6 +115,16 @@ Actually, whatever couchdb provides is enough. In the ideal case, we would have 
   * Headword-dictionary mappings
 
 # Design choices
-
+* Pouchdb has size limitations due to its use of JS indexed Db, so we cannot use it heavily.
+* Using React + Reflux for example frontend because of its utility and kakella's familiarity.
 
 # Deployment
+## Database repilicas
+* You want to host a repilica and make things faster for folks in your geographical area? Just open an issue in this project and let us know.
+* Ahmedabad, IN <http://vedavaapi.org:5984/dict_entries/_all_docs>
+* Bay area, USA (dev machine, unstable) <http://vvasuki.hopto.org:5984/dict_entries/_all_docs>
+
+## UI deployments
+* You can use it right off github!
+* You want to host copies (or even develop a superior UI?) and make things faster for folks in your geographical area? Just open an issue in this project and let us know. We'd love to list it here.
+
