@@ -25,15 +25,8 @@
   ],
   "builds": [
     {
-      "js": {
-        "minify": true
-      },
-      "css": {
-        "minify": true
-      },
-      "html": {
-        "minify": true
-      }
+      "name": "github",
+      "base": "/dict-api/polymer-app/build/github/"
     }
   ],
   "lint": {

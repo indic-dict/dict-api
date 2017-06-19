@@ -17,9 +17,8 @@
     "bower_components/webcomponentsjs/*.js"
   ],
   "builds": [{
-    "js": {"minify": true},
-    "css": {"minify": true},
-    "html": {"minify": true}
+    "name": "github",
+    "base" : "/dict-api/polymer-app/build/github/"
   }],
   "lint": {
     "rules": ["polymer-2"]
