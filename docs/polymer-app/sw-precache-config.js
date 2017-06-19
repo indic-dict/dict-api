@@ -12,9 +12,10 @@
 
 module.exports = {
   staticFileGlobs: [
-    '/index.html',
-    '/manifest.json',
-    '/bower_components/webcomponentsjs/*',
+    '/dict-api/polymer-app/build/github/index.html',
+    '/dict-api/polymer-app/build/github/manifest.json',
+    '/dict-api/polymer-app/build/github/bower_components/webcomponentsjs/*',
   ],
-  navigateFallback: 'index.html',
+  navigateFallback: '/dict-api/polymer-app/build/github/index.html',
+  replacePrefix: '/dict-api/polymer-app/build/github'
 };
