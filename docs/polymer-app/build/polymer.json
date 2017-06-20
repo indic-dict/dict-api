@@ -1,10 +1,8 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/my-app.html",
+  "shell": "src/dict-ui.html",
   "fragments": [
     "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
     "src/my-view404.html"
   ],
   "sources": [
@@ -12,10 +10,8 @@
     "images/**/*",
     "bower.json",
     "index.html",
-    "src/my-app.html",
+    "src/dict-ui.html",
     "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
     "src/my-view404.html"
   ],
   "extraDependencies": [
