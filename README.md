@@ -107,16 +107,16 @@ In the ideal case, we would have the following (from the view of simplicity) (in
 * Example from Goldendict (desktop) [here](http://imgur.com/a/Tj6OZ?).
 
 
-# Implementation
+# Design choices
 ## Ideas
 * Use no-sql database with good replication characteristics, like couchdb. couchdb already provides some simple API, and it is extensible.
 * Leverage the rest api that couchdb provides to the extant possible.
 * Use offline catching intelligently to minimize communicating with the server. Caching ideas:
   * Headword-dictionary mappings
 
-# Design choices
+# Software choices
 * Pouchdb has size limitations due to its use of JS indexed Db, so we cannot use it heavily.
-* Using React + Reflux for example frontend because of its utility and kakella's familiarity.
+* Using Polymer for example frontend because of its utility and its easy compatibility with web components standards.
 
 # Deployment
 ## Database repilicas
@@ -127,7 +127,6 @@ In the ideal case, we would have the following (from the view of simplicity) (in
 ## UI deployments
 * You can use it right off github!
   * Polymer app [here](https://sanskrit-coders.github.io/dict-api/polymer-app/build/github/) .
-    * Status:
-      * Dummy app works fine on mobile, but not on desktop chrome. `iron-icon.html:187 Uncaught TypeError: this._meta.byKey is not a function`
+    * See <polymer-app/README.md>.
 * You want to host copies (or even develop a superior UI?) and make things faster for folks in your geographical area? Just open an issue in this project and let us know. We'd love to list it here.
 
