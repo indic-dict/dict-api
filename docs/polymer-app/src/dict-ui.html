@@ -69,9 +69,8 @@
         <app-header slot="header" condenses="" reveals="" effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="my-icons:menu" drawer-toggle=""></paper-icon-button>
+            <vaadin-combo-box id="query" label="Query" filtered-items="[[items]]" allow-custom-value></vaadin-combo-box>
             <div main-title="">Dict UI</div>
-            <vaadin-combo-box filtered-items="[[items]]" on-filter-changed="_filterChanged">
-            </vaadin-combo-box>
           </app-toolbar>
         </app-header>
 
@@ -98,6 +97,8 @@
                   items: Array
               };
           }
+
+
       }
 
       window.customElements.define(DictUi.is, DictUi);
