@@ -12,7 +12,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="my-icons.html">
 
-<link rel="lazy-import" href="my-view1.html">
+<link rel="lazy-import" href="dict-entry-view.html">
 <link rel="lazy-import" href="ui-404.html">
 
 <dom-module id="dict-ui">
@@ -63,25 +63,19 @@
       <!-- Drawer content -->
       <app-drawer id="drawer" slot="drawer">
         <app-toolbar>Menu</app-toolbar>
-        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="view1">View One</a>
-          <a name="view2" href="view2">View Two</a>
-          <a name="view3" href="view3">View Three</a>
-        </iron-selector>
       </app-drawer>
 
       <!-- Main content -->
       <app-header-layout has-scrolling-region="">
-
         <app-header slot="header" condenses="" reveals="" effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="my-icons:menu" drawer-toggle=""></paper-icon-button>
-            <div main-title="">My App</div>
+            <div main-title="">Dict UI</div>
           </app-toolbar>
         </app-header>
 
         <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="view404" role="main">
-          <my-view1 name="view1"></my-view1>
+          <dict-entry-view name="view1"></dict-entry-view>
           <ui-404 name="ui-404"></ui-404>
         </iron-pages>
       </app-header-layout>

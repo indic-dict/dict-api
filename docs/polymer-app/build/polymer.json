@@ -2,7 +2,7 @@
   "entrypoint": "index.html",
   "shell": "src/dict-ui.html",
   "fragments": [
-    "src/my-view1.html",
+    "src/dict-entry-view.html",
     "src/ui-404.html"
   ],
   "sources": [
@@ -11,7 +11,7 @@
     "bower.json",
     "index.html",
     "src/dict-ui.html",
-    "src/my-view1.html",
+    "src/dict-entry-view.html",
     "src/ui-404.html"
   ],
   "extraDependencies": [
