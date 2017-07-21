@@ -3,7 +3,7 @@
   "shell": "src/dict-ui.html",
   "fragments": [
     "src/dict-entry-view.html",
-    "src/ui-404.html"
+    "src/view-404.html"
   ],
   "sources": [
     "src/**/*",
@@ -12,7 +12,7 @@
     "index.html",
     "src/dict-ui.html",
     "src/dict-entry-view.html",
-    "src/ui-404.html"
+    "src/view-404.html"
   ],
   "extraDependencies": [
     "manifest.json",

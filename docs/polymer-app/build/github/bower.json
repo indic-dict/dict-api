@@ -1,7 +1,7 @@
 {
-  "name": "polymer-starter-kit",
+  "name": "dict-ui",
   "authors": [
-    "The Polymer Authors"
+    "Sanskrit coders"
   ],
   "license": "https://polymer.github.io/LICENSE.txt",
   "dependencies": {
