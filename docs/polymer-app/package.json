@@ -1,13 +1,13 @@
 {
   "name": "dict-api-ui-polymer",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Polymer UI for the sanskrit-coders/stardict-* projects.",
 //  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sanskrit-coders/dict-api.git"
   },
-  "author": "",
+  "author": "sanskrit-programmers@googlegroups.com",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/sanskrit-coders/dict-api/issues"

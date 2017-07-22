@@ -18,7 +18,7 @@
   <template>
     <style>
       :host {
-        --app-primary-color: #4285f4;
+        --app-primary-color: #f4dc28;
         --app-secondary-color: black;
 
         display: block;
@@ -29,7 +29,7 @@
       }
 
       app-header {
-        color: #fff;
+        color: black;
         background-color: var(--app-primary-color);
       }
 
@@ -68,9 +68,9 @@
       <app-header-layout has-scrolling-region="">
         <app-header slot="header" condenses="" reveals="" effects="waterfall">
           <app-toolbar>
-            <paper-icon-button icon="my-icons:menu" drawer-toggle=""></paper-icon-button>
+            <!--<paper-icon-button icon="my-icons:menu-saffron" drawer-toggle="" style="color: red;"></paper-icon-button>-->
             <vaadin-combo-box id="query" label="Query" filtered-items="[[items]]" allow-custom-value></vaadin-combo-box>
-            <div main-title="">Dict UI</div>
+            <div main-title="" spacer="">Dict UI</div>
           </app-toolbar>
         </app-header>
 
