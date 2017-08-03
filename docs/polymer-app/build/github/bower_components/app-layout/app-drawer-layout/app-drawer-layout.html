@@ -126,8 +126,7 @@ a shadow root):
 
 @group App Elements
 @element app-drawer-layout
-@demo app-drawer-layout/demo/simple-drawer.html Simple Demo
-@demo app-drawer-layout/demo/two-drawers.html Two drawers
+@demo app-drawer-layout/demo/index.html
 -->
 
 <dom-module id="app-drawer-layout">
@@ -248,8 +247,7 @@ a shadow root):
         // Disable drawer transitions until after app-drawer-layout sets the initial opened state.
         var drawer = this.drawer;
         if (drawer) {
-          this._savedDrawerTransitionDuration = drawer.transitionDuration;
-          drawer.transitionDuration = 0;
+          drawer.setAttribute('no-transition', '');
         }
       },
 
@@ -265,7 +263,7 @@ a shadow root):
 
       _updateLayoutStates: function() {
         var drawer = this.drawer;
-        if (!drawer) {
+        if (!this.isAttached || !drawer) {
           return;
         }
 
@@ -277,11 +275,10 @@ a shadow root):
           } else {
             drawer.opened = drawer.persistent = true;
           }
-          if (this._savedDrawerTransitionDuration) {
+          if (drawer.hasAttribute('no-transition')) {
             // Enable drawer transitions after app-drawer-layout sets the initial opened state.
             Polymer.RenderStatus.afterNextRender(this, function() {
-              drawer.transitionDuration = this._savedDrawerTransitionDuration;
-              this._savedDrawerTransitionDuration = 0;
+              drawer.removeAttribute('no-transition');
             });
           }
           this._drawerNeedsReset = false;

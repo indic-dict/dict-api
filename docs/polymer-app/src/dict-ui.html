@@ -9,38 +9,35 @@
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/vaadin-combo-box/vaadin-combo-box.html">
-<link rel="import" href="my-icons.html">
 
 <link rel="lazy-import" href="dict-entry-view.html">
 <link rel="lazy-import" href="view-404.html">
 
 <dom-module id="dict-ui">
   <template>
+    <!--It is convention to place the style at the top.-->
     <style>
       :host {
+        /*TOKNOW: I have no idea what :host is.*/
+
+        /*This is the color used in the page header - see the app-header block below.*/
         --app-primary-color: #f4dc28;
         --app-secondary-color: black;
-
         display: block;
       }
 
+      /*********************We use the drawer layout (see below). This is its style.*/
       app-drawer-layout:not([narrow]) [drawer-toggle] {
+        /* Something to do with the drawer.
+      TOKNOW: What is the not([narrow]) bit above?.*/
         display: none;
-      }
-
-      app-header {
-        color: black;
-        background-color: var(--app-primary-color);
-      }
-
-      app-header paper-icon-button {
-        --paper-icon-button-ink-color: white;
       }
 
       .drawer-list {
         margin: 0 20px;
       }
 
+      /*This is what each item in the drawer to the left will look like.*/
       .drawer-list a {
         display: block;
         padding: 0 16px;
@@ -49,9 +46,16 @@
         line-height: 40px;
       }
 
+      /*This is what the selected item in the drawer to the left will look like.*/
       .drawer-list a.iron-selected {
         color: black;
         font-weight: bold;
+      }
+
+      /*********************The main part of our app has a header. This is its style*/
+      app-header {
+        color: black;
+        background-color: var(--app-primary-color);
       }
     </style>
 
@@ -59,21 +63,39 @@
     <app-route route="{{route}}" pattern="[[rootPattern]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
 
     <app-drawer-layout fullbleed="">
-      <!-- Drawer content -->
+
+      <!-- Drawer content
+      Depending on the screen size, it will need to be "pulled out" by the user. Neat!
+      * TODO: The drawer will eventually index the definitions we will show in the result, helping the user navigate.
+      * TODO: There might also be a link to setting the user preferences and the like.
+      -->
       <app-drawer id="drawer" slot="drawer">
         <app-toolbar>Result index</app-toolbar>
       </app-drawer>
 
-      <!-- Main content -->
+      <!-- Main content
+      Now, here we have everything apart from the drawer. It has two parts:
+      * the header,
+      * and the content page.
+      -->
       <app-header-layout has-scrolling-region="">
         <app-header slot="header" condenses="" reveals="" effects="waterfall">
           <app-toolbar>
-            <!--<paper-icon-button icon="my-icons:menu-saffron" drawer-toggle="" style="color: red;"></paper-icon-button>-->
-            <vaadin-combo-box id="query" label="Query" filtered-items="[[items]]" allow-custom-value></vaadin-combo-box>
+            <!--
+            This combo-box is bound to the headwords variable. [[]] means that the binding is 1-way "host to target",
+            where dict-ui is the host, and vaadin-combo-box is the "target".
+            More comments about how the headwords are populated are provided in the properties function.
+            -->
+            <vaadin-combo-box id="query" label="Query" filtered-items="[[headwords]]" allow-custom-value></vaadin-combo-box>
+
+            <!--A title shown in the middle of the header. TODO: Make this appear to the right instead?-->
             <div main-title="" spacer="">Dict UI</div>
           </app-toolbar>
         </app-header>
 
+        <!--The main part of the app, where dict definitions are shown.
+        It is bound to the page value. The binding is 1-way "host to target", where dict-ui is the host.
+        -->
         <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="view-404" role="main">
           <dict-entry-view name="dict-entry-view"></dict-entry-view>
           <view-404 name="view-404"></view-404>
@@ -89,12 +111,8 @@
 
           static get properties() {
               return {
-                  page: {
-                      type: String,
-                      reflectToAttribute: true,
-                      observer: '_pageChanged',
-                  },
-                  items: Array
+                  // This is bound to the combo-box in the header. As a user types a character, nearby headwords are set in this array.
+                  headwords: Array
               };
           }
 

@@ -1,17 +1,10 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
---><!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="utf-8">
     <meta name="generator" content="Polymer Starter Kit">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
     <!--<base href="/dict-api/polymer-app/build/github/">-->
+    <!--<base href="{{base}}">-->
     <base href="">
 
     <title>Polymer Dict UI</title>
@@ -49,10 +42,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script>
         // Register the base URL
         const baseUrl = document.querySelector('base').href;
+        console.log(document.querySelector('base').href)
+        console.log(baseUrl)
 
         // Load and register pre-caching Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function () {
+                console.log(baseUrl + 'service-worker.js')
                 navigator.serviceWorker.register(baseUrl + 'service-worker.js');
             });
         }
@@ -76,7 +72,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 </head>
 <body>
-<dict-ui page="dict-entry-view"></dict-ui>
+<dict-ui page-name="dict-entry-view"></dict-ui>
 <noscript>
     Please enable JavaScript to view this website.
 </noscript>
