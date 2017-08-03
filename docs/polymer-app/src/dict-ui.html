@@ -11,7 +11,6 @@
 <link rel="import" href="../bower_components/vaadin-combo-box/vaadin-combo-box.html">
 
 <link rel="lazy-import" href="dict-entry-view.html">
-<link rel="lazy-import" href="view-404.html">
 
 <dom-module id="dict-ui">
   <template>
@@ -94,12 +93,8 @@
         </app-header>
 
         <!--The main part of the app, where dict definitions are shown.
-        It is bound to the page value. The binding is 1-way "host to target", where dict-ui is the host.
         -->
-        <iron-pages selected="[[page]]" attr-for-selected="name" fallback-selection="view-404" role="main">
-          <dict-entry-view name="dict-entry-view"></dict-entry-view>
-          <view-404 name="view-404"></view-404>
-        </iron-pages>
+        <dict-entry-view name="dict-entry-view"></dict-entry-view>
       </app-header-layout>
     </app-drawer-layout>
   </template>
