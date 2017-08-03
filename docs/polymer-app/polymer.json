@@ -1,9 +1,9 @@
 {
+  "comment": "A configuration file used when one commands: polymer build etc..",
   "entrypoint": "index.html",
   "shell": "src/dict-ui.html",
   "fragments": [
-    "src/dict-entry-view.html",
-    "src/view-404.html"
+    "src/dict-entry-view.html"
   ],
   "sources": [
     "src/**/*",
@@ -16,7 +16,8 @@
   ],
   "builds": [{
     "name": "github",
-    "base" : "/dict-api/polymer-app/build/github/"
+    "base" : "/dict-api/polymer-app/build/github/",
+    "comment": "This build was defined just so that I could set the base url above. Not known to work as of 20170802."
   }],
   "lint": {
     "rules": ["polymer-2"]

@@ -3,6 +3,7 @@
   "authors": [
     "Sanskrit coders"
   ],
+  "comment": "Don't know if this is a valid field! Anyway, this is something the bower package management tool updates.",
   "license": "https://polymer.github.io/LICENSE.txt",
   "dependencies": {
     "app-layout": "PolymerElements/app-layout#^2.0.0",

@@ -1,6 +1,7 @@
 {
   "name": "Dict UI",
   "short_name": "Dict UI",
+  "comment": "Not a valid tag AFAIK.  https://developers.google.com/web/updates/2014/11/Support-for-installable-web-apps-with-webapp-manifest-in-chrome-38-for-Android says:   Excerpt: \"The Manifest for Web applications is a simple JSON file that gives you, the developer, the ability to control how your app appears to the user in the areas that they would expect to see apps (for example the mobile home screen), direct what the user can launch and, more importantly, how they can launch it. In the future the manifest will give you even more control over your app, but right now we are just focusing on how your app can be launched.\" This is referenced in index.html.",
   "start_url": "./?homescreen=1",
   "display": "standalone",
   "theme_color": "#3f51b5",
