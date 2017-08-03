@@ -2,7 +2,7 @@
   "name": "dict-api-ui-polymer",
   "version": "0.0.1",
   "description": "Polymer UI for the sanskrit-coders/stardict-* projects.",
-  "comment": "",
+  "comment": "Something used by npm, I suppose?",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sanskrit-coders/dict-api.git"
