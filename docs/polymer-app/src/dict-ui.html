@@ -98,26 +98,29 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
             <!--More comments about how the headwords are populated are provided in the properties function.
             TODO: Listen to changes.
             -->
-            <vaadin-combo-box id="queryBox" label="Query"  filter="{{query}}"  filtered-items="[[headwords]]" allow-custom-value></vaadin-combo-box>
+            <vaadin-combo-box id="queryBox" label="Query"  filter="{{query}}"  filtered-items="[[headwords]]" on-filter-changed="_queryChanged" loading="[[headwordQueryAppWorking]]" allow-custom-value></vaadin-combo-box>
+
+            <!--Iron AJAX! Here is where we get headwords starting with a given prefix.
+            http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=500&reduce=false&start_key="ast"
+
+            20170804- With params='{"limit":500, "start_key":"[[query]]", "reduce" : False}', I ran into this problem: https://stackoverflow.com/questions/34164649/polymer-iron-ajax-element-params-with-databinding-is-splitting-the-parameter-int . Hence doing a workaround.
+
+            Not using "auto" mostly to work around the above.
+            -->
+            <iron-ajax
+                    id="headwordQueryApp"
+                    url="http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords"
+                    params='{"start_key":"[[query]]"}'
+                    loading={{headwordQueryAppWorking}}
+                    handle-as="json"
+                    on-response="_handleHeadwordResponse"
+                    debounce-duration="300"></iron-ajax>
+
 
             <!--A title shown in the middle of the header. TODO: Make this appear to the right instead?-->
             <div main-title="" spacer="">Dict UI</div>
           </app-toolbar>
         </app-header>
-
-        <!--Iron AJAX! Here is where we get headwords starting with a given prefix.
-        http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=500&reduce=false&start_key="ast"
-
-        20170804- I ran into this problem: https://stackoverflow.com/questions/34164649/polymer-iron-ajax-element-params-with-databinding-is-splitting-the-parameter-int .
-        -->
-        <!--params='{"limit":500, "start_key":"[[query]]", "reduce" : False}'-->
-        <iron-ajax
-                auto
-                url="http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords"
-                params='{"start_key":"[[query]]"}'
-                handle-as="json"
-                on-response="handleHeadwordResponse"
-                debounce-duration="300"></iron-ajax>
 
         <!--The main part of the app, where dict definitions are shown.
         TODO: Why does nothing show :-)?
@@ -134,8 +137,32 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
           static get properties() {
               return {
                   // This is bound to the combo-box in the header. As a user types a character, nearby headwords are set in this array.
-                  headwords: Array
+                  headwords: Array,
+                  query: String,
+                  headwordQueryAppWorking: Boolean
               };
+          }
+
+          // This is called when the queryBox value is changed.
+          _queryChanged(e) {
+              var query = e.detail.value;
+              if (query == "") {
+                  console.log("Ignoring empty query");
+              } else {
+                  // Lets use the headwordQueryApp component to make the AJAX call.
+                  var headwordQueryApp = this.$.headwordQueryApp;
+                  // Why are we not doing the databinding more imperatively? See comment above the iron-ajax element.
+                  headwordQueryApp.params = {
+                      "limit":500,
+                      "start_key": `"${query}"`,
+                      "reduce" : "False"
+                  }
+                  headwordQueryApp.generateRequest();
+              }
+          }
+
+          _handleHeadwordResponse(e) {
+            console.log(event.detail.response);
           }
       }
 
