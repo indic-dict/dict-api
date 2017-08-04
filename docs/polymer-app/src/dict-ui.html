@@ -1,20 +1,32 @@
+<!--We put the import statements at the top.-->
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+
+<!--********* Non UI imports-->
+<!--Used to query the dict api.-->
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<!--*************UI Related imports-->
+<!--We're using the drawer layout, so: -->
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<!--Main display area is composed of a header, so: -->
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<!--TOKNOW what's this for? Perhaps because we use some has-scrolling-region parameter below?-->
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<!--We've got a toolbar in the header, where the title and the combo box reside.-->
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<!--We've got a combobox in the toolbar.-->
 <link rel="import" href="../bower_components/vaadin-combo-box/vaadin-combo-box.html">
+<!--We display dict entries!
+Getting "lazy-import" working seems quite involved. So "import" for now.-->
+<link rel="import" href="dict-entry-view.html">
 
-<link rel="lazy-import" href="dict-entry-view.html">
 
 <dom-module id="dict-ui">
   <template>
-    <!--It is convention to place the style at the top.-->
+    <!--It is convention to place the style at the top. We don't seem to need "shared-style"s here.-->
     <style>
       :host {
         /*TOKNOW: I have no idea what :host is.*/
@@ -57,10 +69,6 @@
         background-color: var(--app-primary-color);
       }
     </style>
-
-    <app-location route="{{route}}"></app-location>
-    <app-route route="{{route}}" pattern="[[rootPattern]]:page" data="{{routeData}}" tail="{{subroute}}"></app-route>
-
     <app-drawer-layout fullbleed="">
 
       <!-- Drawer content
@@ -76,23 +84,43 @@
       Now, here we have everything apart from the drawer. It has two parts:
       * the header,
       * and the content page.
+      TOKNOW: What does has-scrolling-region="" mean?
       -->
       <app-header-layout has-scrolling-region="">
         <app-header slot="header" condenses="" reveals="" effects="waterfall">
           <app-toolbar>
             <!--
-            This combo-box is bound to the headwords variable. [[]] means that the binding is 1-way "host to target",
-            where dict-ui is the host, and vaadin-combo-box is the "target".
-            More comments about how the headwords are populated are provided in the properties function.
+            This is the search box!
+            * The value typed by the user is bound to the query property, which is also used in the iron-ajax element which makes a REST API call to our dictionary database.
+            * The combo-box items are bound to the headwords variable. [[]] means that the binding is 1-way "host to target",
+              where dict-ui is the host, and vaadin-combo-box is the "target".
             -->
-            <vaadin-combo-box id="query" label="Query" filtered-items="[[headwords]]" allow-custom-value></vaadin-combo-box>
+            <!--More comments about how the headwords are populated are provided in the properties function.
+            TODO: Listen to changes.
+            -->
+            <vaadin-combo-box id="queryBox" label="Query"  filter="{{query}}"  filtered-items="[[headwords]]" allow-custom-value></vaadin-combo-box>
 
             <!--A title shown in the middle of the header. TODO: Make this appear to the right instead?-->
             <div main-title="" spacer="">Dict UI</div>
           </app-toolbar>
         </app-header>
 
+        <!--Iron AJAX! Here is where we get headwords starting with a given prefix.
+        http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=500&reduce=false&start_key="ast"
+
+        20170804- I ran into this problem: https://stackoverflow.com/questions/34164649/polymer-iron-ajax-element-params-with-databinding-is-splitting-the-parameter-int .
+        -->
+        <!--params='{"limit":500, "start_key":"[[query]]", "reduce" : False}'-->
+        <iron-ajax
+                auto
+                url="http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords"
+                params='{"start_key":"[[query]]"}'
+                handle-as="json"
+                on-response="handleHeadwordResponse"
+                debounce-duration="300"></iron-ajax>
+
         <!--The main part of the app, where dict definitions are shown.
+        TODO: Why does nothing show :-)?
         -->
         <dict-entry-view name="dict-entry-view"></dict-entry-view>
       </app-header-layout>
@@ -101,7 +129,6 @@
 
   <script>
       class DictUi extends Polymer.Element {
-
           static get is() { return 'dict-ui'; }
 
           static get properties() {
@@ -110,8 +137,6 @@
                   headwords: Array
               };
           }
-
-
       }
 
       window.customElements.define(DictUi.is, DictUi);
