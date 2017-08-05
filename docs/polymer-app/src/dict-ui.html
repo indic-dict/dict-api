@@ -22,6 +22,7 @@
 <!--We display dict entries!
 Getting "lazy-import" working seems quite involved. So "import" for now.-->
 <link rel="import" href="dict-entry-view.html">
+<link rel="import" href="dict-entry-link.html">
 
 
 <dom-module id="dict-ui">
@@ -77,7 +78,14 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
       * TODO: There might also be a link to setting the user preferences and the like.
       -->
       <app-drawer id="drawer" slot="drawer">
-        <app-toolbar>Result index</app-toolbar>
+        <app-header-layout has-scrolling-region="">
+          <app-header slot="header" condenses="" reveals="" effects="waterfall">
+            <app-toolbar>Result index</app-toolbar>
+          </app-header>
+          <template is="dom-repeat" items="[[dictEntries]]">
+            <dict-entry-link dict-entry="[[item]]"></dict-entry-link>
+          </template>
+        </app-header-layout>
       </app-drawer>
 
       <!-- Main content
@@ -143,7 +151,7 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
         <!--The main part of the app, where dict definitions are shown.
         -->
         <template is="dom-repeat" items="[[dictEntries]]">
-          <dict-entry-view name="dict-entry-view" dict-entry="[[item]]"></dict-entry-view>
+          <dict-entry-view name="[[item._id]]" dict-entry="[[item]]"></dict-entry-view>
         </template>
       </app-header-layout>
     </app-drawer-layout>

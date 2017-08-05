@@ -1,0 +1,33 @@
+<link rel="import" href="dict-entry-view.html">
+<dom-module id="dict-entry-link">
+    <template>
+        <paper-card heading="">
+            <div class="entry-location">
+                [[locationSummary]]<br>
+            </div>
+        </paper-card>
+    </template>
+
+
+        <script>
+        class DictEntryLink extends Polymer.Element {
+            static get is() { return 'dict-entry-link'; }
+            static get properties() {
+                return {
+                    dictEntry: Object,
+                    locationSummary: {
+                        type: String,
+                        computed: 'getLocationSummary(dictEntry.location)'
+                    }
+                };
+            }
+
+            getLocationSummary(locationObj) {
+                var dictIdParts = locationObj.dictionaryId.split("__");
+                return dictIdParts[dictIdParts.length - 1].replace(".babylon.*", "") + `:${locationObj.entryNumber}`;
+            }
+        }
+
+        window.customElements.define(DictEntryLink.is, DictEntryLink);
+    </script>
+</dom-module>

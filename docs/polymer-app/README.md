@@ -1,3 +1,6 @@
+# Use
+- Link: [here](https://sanskrit-coders.github.io/dict-api/polymer-app/build/github/), short url: <http://bit.ly/koshah> .
+
 
 # Development
 ## Setup
