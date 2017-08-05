@@ -1,30 +1,20 @@
 <link rel="import" href="dict-entry-view.html">
 <dom-module id="dict-entry-link">
     <template>
-        <paper-card  heading="">
+        <paper-card  heading="" on-click="this._scrollToEntry">
             <div class="entry-location">
-                [[locationSummary]]<br>
+                [[locationSummary]]
             </div>
         </paper-card>
     </template>
 
 
         <script>
-        class DictEntryLink extends Polymer.Element {
+        class DictEntryLink extends DictEntryView {
             static get is() { return 'dict-entry-link'; }
-            static get properties() {
-                return {
-                    dictEntry: Object,
-                    locationSummary: {
-                        type: String,
-                        computed: 'getLocationSummary(dictEntry.location)'
-                    }
-                };
-            }
-
-            getLocationSummary(locationObj) {
-                var dictIdParts = locationObj.dictionaryId.split("__");
-                return dictIdParts[dictIdParts.length - 1].replace(".babylon.*", "") + `:${locationObj.entryNumber}`;
+            _scrollToEntry() {
+                var id = this.get("dictEntry")._id;
+                console.log(id);
             }
         }
 
