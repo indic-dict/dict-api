@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="dict-entry-view">
@@ -13,16 +14,32 @@
       }
     </style>
 
-    <!--This card class is defined in shared-styles. -->
-    <div class="card">
-      <h1>Definition One </h1>
-      <p>A dummy dict entry.</p>
-    </div>
+    <paper-card heading="">
+        <div class="entry-location">
+            [[dictEntry.location.dictionaryId]]
+        </div>
+        <hr>
+        <div class="entry-headwords">
+            <template is="dom-repeat" items="[[dictEntry.headwords]]">
+                [[item.text]]
+            </template>
+        </div>
+        <hr>
+        <div class="card-content">
+            [[dictEntry.entry.text]]
+        </div>
+    </paper-card>
+
   </template>
 
   <script>
     class DictEntryView extends Polymer.Element {
       static get is() { return 'dict-entry-view'; }
+      static get properties() {
+          return {
+              dictEntry: Object,
+          };
+      }
     }
 
     window.customElements.define(DictEntryView.is, DictEntryView);

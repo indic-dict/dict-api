@@ -90,14 +90,13 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
           <app-toolbar>
             <!--
             This is the search box!
-            * The value typed by the user is bound to the query property, which is also used in the iron-ajax element which makes a REST API call to our dictionary database.
+            * The value typed by the user is bound to the query property, which is also used in the iron-ajax element which makes a REST API call to our dictionary database. {{}} means "bidrectional" binding, so that vaadin-combo-box and this component are in sync about the value of the query property.
             * The combo-box items are bound to the headwords variable. [[]] means that the binding is 1-way "host to target",
               where dict-ui is the host, and vaadin-combo-box is the "target".
             -->
             <!--More comments about how the headwords are populated are provided in the properties function.
-            TODO: Listen to changes.
             -->
-            <vaadin-combo-box id="queryBox" label="Query" filter="{{query}}" filtered-items="[[headwords]]" on-filter-changed="_queryChanged" loading="[[headwordQueryAppWorking]]" allow-custom-value=""></vaadin-combo-box>
+            <vaadin-combo-box id="queryBox" label="Query" filter="{{query}}" filtered-items="[[headwords]]" on-filter-changed="_queryChanged" value="{{selectedHeadword}}" on-value-changed="_headwordSelectionHandler" loading="[[queryBoxWaiting]]"></vaadin-combo-box>
 
             <!--Iron AJAX! Here is where we get headwords starting with a given prefix.
             http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=500&reduce=false&start_key="ast"
@@ -106,8 +105,14 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
 
             Not using "auto" mostly to work around the above.
             -->
-            <iron-ajax id="headwordQueryApp" url="http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords" params="{&quot;start_key&quot;:&quot;[[query]]&quot;}" loading="{{headwordQueryAppWorking}}" handle-as="json" on-response="_handleHeadwordResponse" debounce-duration="300"></iron-ajax>
+            <iron-ajax id="headwordQueryApp" url="http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords" params="{&quot;start_key&quot;:&quot;[[query]]&quot;}" loading="{{queryBoxWaiting}}" handle-as="json" on-response="_handleHeadwordResponse" debounce-duration="300"></iron-ajax>
 
+            <!--This component looks up definitions for a given value (obtained from the combo-box.)
+            Example: http://localhost:5984/dict_entries/_design/index_headwords/_view/index_headwords?reduce=false&include_docs=true&keys=%5B%22astu%22%5D
+
+            For reasons mentioned in the case of the headwordQueryApp, we're not using "auto" or setting "params" directly below.
+            -->
+            <iron-ajax id="definitionQueryApp" url="http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords" params="" loading="{{queryBoxWaiting}}" handle-as="json" on-response="_handleDefinitionQueryResponse" debounce-duration="300"></iron-ajax>
 
             <!--A title shown in the middle of the header. TODO: Make this appear to the right instead?-->
             <div main-title="" spacer="">Dict UI</div>
@@ -115,9 +120,10 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
         </app-header>
 
         <!--The main part of the app, where dict definitions are shown.
-        TODO: Why does nothing show :-)?
         -->
-        <dict-entry-view name="dict-entry-view"></dict-entry-view>
+        <template is="dom-repeat" items="[[dictEntries]]">
+          <dict-entry-view name="dict-entry-view" dict-entry="[[item]]"></dict-entry-view>
+        </template>
       </app-header-layout>
     </app-drawer-layout>
   </template>
@@ -128,14 +134,24 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
 
           static get properties() {
               return {
-                  // This is bound to the combo-box in the header. As a user types a character, nearby headwords are set in this array.
-                  headwords: Array,
+                  // Bound to the filter property of the combo-box. Changes as user types.
                   query: String,
-                  headwordQueryAppWorking: Boolean
+                  // This is bound to the combo-box in the header. As a user types a character, valid nearby headwords are set in this array.
+                  headwords: Array,
+                  // This is populated with a valid headword the user has selected in the combo-box. Currently unused.
+                  selectedHeadword: {
+                      "type": String,
+                      "value": ""
+                  },
+                  // If true, indicates to the combo-box that it should show some icon to let the user know that nearby headwords are being looked up.
+                  headwordQueryAppWorking: Boolean,
+
+                  // Bound to the dict-entry-view cards. Set when definitionQueryApp has done its job.
+                  dictEntries: Array
               };
           }
 
-          // This is called when the queryBox value is changed.
+          // This is called when the queryBox value is changed. headwordQueryApp is used to get headwords starting with the query.
           _queryChanged(e) {
               var query = e.detail.value;
               if (query == "") {
@@ -153,8 +169,48 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
               }
           }
 
+          // This is called once the AJAX call by headwordQueryApp has finished. Auto-suggestions in the query box are changed as a result.
           _handleHeadwordResponse(e) {
-            console.log(event.detail.response);
+            var nextHeadwordRows = e.detail.response.rows;
+            var query = this.get("query");
+            var headwordsList = nextHeadwordRows.filter(function (row) {
+                  return row.key.startsWith(query);
+            }).map(function (row) {
+                return row.key;
+            });
+            this.set("headwords", Array.from(new Set(headwordsList)));
+            console.log(e.detail.response);
+          }
+
+          // This is called when the user has chosen a term to look up (ie has pressed "enter") or pressed a button.
+          _headwordSelectionHandler(e) {
+              console.log(e);
+              var value = e.detail.value;
+              console.log(value)
+              if (value == "") {
+                  console.log("Ignoring empty query");
+              } else {
+                  // Lets use the definitionQueryApp component to make the AJAX call.
+                  var definitionQueryApp = this.$.definitionQueryApp;
+                  // Why are we not doing the databinding more imperatively? See comment above the iron-ajax element.
+                  definitionQueryApp.params = {
+                      "keys": `["${value}"]`,
+                      "reduce" : "False",
+                      "include_docs" : "true"
+                  }
+                  definitionQueryApp.generateRequest();
+              }
+          }
+
+          // This is called when definitionQueryApp has looked up all dictionary entries.
+          // As a result, dict-entry-view elements are displayed.
+          _handleDefinitionQueryResponse(e) {
+              console.log(e.detail.response);
+              var definitionRows = e.detail.response.rows;
+              var dictEntries = definitionRows.map(function (row) {
+                  return row.doc;
+              });
+              this.set("dictEntries", dictEntries);
           }
       }
 

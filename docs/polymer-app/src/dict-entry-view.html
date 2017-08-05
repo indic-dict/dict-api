@@ -14,11 +14,20 @@
       }
     </style>
 
-    <paper-card  heading="[[dictEntry.headwords]]">
-      <hr>
-      <div class="card-content">
-        [[dictEntry.entry]]
-      </div>
+    <paper-card  heading="">
+        <div class="entry-location">
+            [[dictEntry.location.dictionaryId]]
+        </div>
+        <hr>
+        <div class="entry-headwords">
+            <template is="dom-repeat" items="[[dictEntry.headwords]]">
+                [[item.text]]
+            </template>
+        </div>
+        <hr>
+        <div class="card-content">
+            [[dictEntry.entry.text]]
+        </div>
     </paper-card>
 
   </template>
@@ -28,7 +37,7 @@
       static get is() { return 'dict-entry-view'; }
       static get properties() {
           return {
-              dictEntry: Object
+              dictEntry: Object,
           };
       }
     }
