@@ -142,7 +142,9 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
 
         <!--The main part of the app, where dict definitions are shown.
         -->
-        <dict-entry-view name="dict-entry-view"></dict-entry-view>
+        <template is="dom-repeat" items="[[dictEntries]]">
+          <dict-entry-view name="dict-entry-view" dict-entry="[[item]]"></dict-entry-view>
+        </template>
       </app-header-layout>
     </app-drawer-layout>
   </template>
@@ -163,7 +165,10 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
                       "value": ""
                   },
                   // If true, indicates to the combo-box that it should show some icon to let the user know that nearby headwords are being looked up.
-                  headwordQueryAppWorking: Boolean
+                  headwordQueryAppWorking: Boolean,
+
+                  // Bound to the dict-entry-view cards. Set when definitionQueryApp has done its job.
+                  dictEntries: Array
               };
           }
 
@@ -185,7 +190,7 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
               }
           }
 
-          // This is called once the AJAX call by headwordQueryApp has finished. Auto-suggestions in the query box is changed.
+          // This is called once the AJAX call by headwordQueryApp has finished. Auto-suggestions in the query box are changed as a result.
           _handleHeadwordResponse(e) {
             var nextHeadwordRows = e.detail.response.rows;
             var query = this.get("query");
@@ -218,10 +223,15 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
               }
           }
 
+          // This is called when definitionQueryApp has looked up all dictionary entries.
+          // As a result, dict-entry-view elements are displayed.
           _handleDefinitionQueryResponse(e) {
               console.log(e.detail.response);
               var definitionRows = e.detail.response.rows;
-
+              var dictEntries = definitionRows.map(function (row) {
+                  return row.doc;
+              });
+              this.set("dictEntries", dictEntries);
           }
       }
 
