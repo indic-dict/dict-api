@@ -1,7 +1,7 @@
 <link rel="import" href="dict-entry-view.html">
 <dom-module id="dict-entry-link">
     <template>
-        <paper-card  heading="" on-click="this._scrollToEntry">
+        <paper-card  heading="">
             <div class="entry-location">
                 [[locationSummary]]
             </div>
@@ -9,12 +9,17 @@
     </template>
 
 
-        <script>
+    <script>
         class DictEntryLink extends DictEntryView {
             static get is() { return 'dict-entry-link'; }
-            _scrollToEntry() {
+            ready() {
+                super.ready();
+                this.addEventListener('click', e => this._scrollToEntry(e));
+            }
+            _scrollToEntry(e) {
                 var id = this.get("dictEntry")._id;
-                console.log(id);
+                console.log("firing scroll-to-entry-intent");
+                this.dispatchEvent(new CustomEvent('scroll-to-entry-intent', {detail: {"id": id}}));
             }
         }
 

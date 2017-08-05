@@ -76,6 +76,7 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
       Depending on the screen size, it will need to be "pulled out" by the user. Neat!
       * TODO: The drawer will eventually index the definitions we will show in the result, helping the user navigate.
       * TODO: There might also be a link to setting the user preferences and the like.
+      * TODO: Drawer does no longer appears on smalls mobile screens (linked with making it contain a scrolling region?).
       -->
       <app-drawer id="drawer" slot="drawer">
         <app-header-layout has-scrolling-region="">
@@ -92,7 +93,6 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
       Now, here we have everything apart from the drawer. It has two parts:
       * the header,
       * and the content page.
-      TOKNOW: What does has-scrolling-region="" mean?
       -->
       <app-header-layout has-scrolling-region="">
         <app-header slot="header" condenses="" reveals="" effects="waterfall">
@@ -178,6 +178,17 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
                   // Bound to the dict-entry-view cards. Set when definitionQueryApp has done its job.
                   dictEntries: Array
               };
+          }
+
+          ready() {
+              super.ready();
+
+              // TODO: Not being received.
+              this.addEventListener('scroll-to-entry-intent', e => this._scrollToEntry(e));
+          }
+
+          _scrollToEntry(e) {
+              console.log(e);
           }
 
           // This is called when the queryBox value is changed. headwordQueryApp is used to get headwords starting with the query.
