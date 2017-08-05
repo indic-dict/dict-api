@@ -98,7 +98,12 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
             <!--More comments about how the headwords are populated are provided in the properties function.
             TODO: Listen to changes.
             -->
-            <vaadin-combo-box id="queryBox" label="Query"  filter="{{query}}"  filtered-items="[[headwords]]" on-filter-changed="_queryChanged" loading="[[headwordQueryAppWorking]]" allow-custom-value></vaadin-combo-box>
+            <vaadin-combo-box
+                    id="queryBox" label="Query"
+                    filter="{{query}}"  filtered-items="[[headwords]]" on-filter-changed="_queryChanged"
+                    on-value-changed="_headwordSelectionHandler"
+                    loading="[[headwordQueryAppWorking]]"
+                    allow-custom-value></vaadin-combo-box>
 
             <!--Iron AJAX! Here is where we get headwords starting with a given prefix.
             http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=500&reduce=false&start_key="ast"
@@ -137,12 +142,13 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
               return {
                   // This is bound to the combo-box in the header. As a user types a character, nearby headwords are set in this array.
                   headwords: Array,
+                  headwordMap: Object,
                   query: String,
                   headwordQueryAppWorking: Boolean
               };
           }
 
-          // This is called when the queryBox value is changed.
+          // This is called when the queryBox value is changed. headwordQueryApp is used to get headwords starting with the query.
           _queryChanged(e) {
               var query = e.detail.value;
               if (query == "") {
@@ -160,8 +166,21 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
               }
           }
 
+          // This is called once the AJAX call by headwordQueryApp has finished. Auto-suggestions in the query box is changed.
           _handleHeadwordResponse(e) {
-            console.log(event.detail.response);
+            var nextHeadwordRows = e.detail.response.rows;
+            var query = this.get("query");
+            var headwordsList = nextHeadwordRows.filter(function (row) {
+                  return row.key.startsWith(query);
+            }).map(function (row) {
+                return row.key;
+            });
+            this.set("headwords", Array.from(new Set(headwordsList)));
+            console.log(e.detail.response);
+          }
+
+          _headwordSelectionHandler(e) {
+
           }
       }
 
