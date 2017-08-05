@@ -99,20 +99,20 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
             <vaadin-combo-box id="queryBox" label="Query" filter="{{query}}" filtered-items="[[headwords]]" on-filter-changed="_queryChanged" value="{{selectedHeadword}}" on-value-changed="_headwordSelectionHandler" loading="[[queryBoxWaiting]]"></vaadin-combo-box>
 
             <!--Iron AJAX! Here is where we get headwords starting with a given prefix.
-            http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=500&reduce=false&start_key="ast"
+            http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=20&reduce=true&inclusive_end=true&start_key=%22ast%22&group=true
 
-            20170804- With params='{"limit":500, "start_key":"[[query]]", "reduce" : False}', I ran into this problem: https://stackoverflow.com/questions/34164649/polymer-iron-ajax-element-params-with-databinding-is-splitting-the-parameter-int . Hence doing a workaround.
+            20170804- With params='{"start_key":"[[query]]", I ran into this problem: https://stackoverflow.com/questions/34164649/polymer-iron-ajax-element-params-with-databinding-is-splitting-the-parameter-int . Hence doing a workaround.
 
             Not using "auto" mostly to work around the above.
             -->
-            <iron-ajax id="headwordQueryApp" url="http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords" params="{&quot;start_key&quot;:&quot;[[query]]&quot;}" loading="{{queryBoxWaiting}}" handle-as="json" on-response="_handleHeadwordResponse" debounce-duration="300"></iron-ajax>
+            <iron-ajax id="headwordQueryApp" url="https://api.vedavaapi.org/couchdb/dict_entries/_design/index_headwords/_view/index_headwords" params="{&quot;start_key&quot;:&quot;[[query]]&quot;}" loading="{{queryBoxWaiting}}" handle-as="json" on-response="_handleHeadwordResponse" debounce-duration="300"></iron-ajax>
 
             <!--This component looks up definitions for a given value (obtained from the combo-box.)
             Example: http://localhost:5984/dict_entries/_design/index_headwords/_view/index_headwords?reduce=false&include_docs=true&keys=%5B%22astu%22%5D
 
             For reasons mentioned in the case of the headwordQueryApp, we're not using "auto" or setting "params" directly below.
             -->
-            <iron-ajax id="definitionQueryApp" url="http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords" params="" loading="{{queryBoxWaiting}}" handle-as="json" on-response="_handleDefinitionQueryResponse" debounce-duration="300"></iron-ajax>
+            <iron-ajax id="definitionQueryApp" url="https://api.vedavaapi.org/couchdb/dict_entries/_design/index_headwords/_view/index_headwords" params="" loading="{{queryBoxWaiting}}" handle-as="json" on-response="_handleDefinitionQueryResponse" debounce-duration="300"></iron-ajax>
 
             <!--A title shown in the middle of the header. TODO: Make this appear to the right instead?-->
             <div main-title="" spacer="">Dict UI</div>
@@ -163,7 +163,8 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
                   headwordQueryApp.params = {
                       "limit":500,
                       "start_key": `"${query}"`,
-                      "reduce" : "False"
+                      "reduce" : "true",
+                      "group" : "true"
                   }
                   headwordQueryApp.generateRequest();
               }
@@ -195,7 +196,7 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
                   // Why are we not doing the databinding more imperatively? See comment above the iron-ajax element.
                   definitionQueryApp.params = {
                       "keys": `["${value}"]`,
-                      "reduce" : "False",
+                      "reduce" : "false",
                       "include_docs" : "true"
                   }
                   definitionQueryApp.generateRequest();
