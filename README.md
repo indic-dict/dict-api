@@ -71,9 +71,10 @@ We seek to provide a functional rest-api based webapp to access various dictiona
 ```
 
 ## Web API
-Actually, whatever couchdb provides is enough. 
+Actually, whatever couchdb provides is enough. Examples below are from the vedavaapi.org deployment (for https equivalents and other servers, see the "Deployment" section).
 * Querying dictionary entries: use the dict_entries database and the index_headwords index
   * Get a particular dictionary entry: [link](http://vedavaapi.org:5984/dict_entries/stardict-sanskrit__sa-head__sa-entries__amara-onto__amara-onto__0).
+  * Get a grouped count of some words starting with ast: [link](http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=20&reduce=true&inclusive_end=true&start_key=%22ast%22&group=true) .
   * Get a list of 10 entries starting with कटि : [get all](http://vedavaapi.org:5984/dict_entries/_design/index_headwords/_view/index_headwords?limit=10&reduce=false&inclusive_end=true&include_docs=true&start_key=%22%E0%A4%95%E0%A4%9F%E0%A4%BF%22)
     * This also gives you the offset for the starting result (useful for randomizing, stats etc..).
 
@@ -121,8 +122,10 @@ In the ideal case, we would have the following (from the view of simplicity) (in
 # Deployment
 ## Database repilicas
 * You want to host a repilica and make things faster for folks in your geographical area? Just open an issue in this project and let us know.
-* Ahmedabad, IN <http://vedavaapi.org:5984/dict_entries/_all_docs>
-* Bay area, USA (dev machine, unstable) <http://vvasuki.hopto.org:5984/dict_entries/_all_docs>
+* Ahmedabad, IN
+  * [http access](http://vedavaapi.org:5984/dict_entries/_all_docs)
+  * [https access](http://vedavaapi.org:5984/dict_entries/_all_docs)
+* Bay area, USA (dev machine, unstable) <https://api.vedavaapi.org/couchdb/dict_entries/_all_docs>
 
 ## UI deployments
 * You can use it right off github!
