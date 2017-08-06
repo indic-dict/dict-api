@@ -13,7 +13,7 @@
 
 ## Code organization
 - index.html is the entry point. It loads the dict-ui polymer module (defined in src).
-- dict-ui uses a drawer layout. We use literate programming - so, don't worry and just read what's written betwixt the code.
+- dict-ui uses a drawer layout. We've tried to use literate programming - so, don't worry and just read what's written betwixt the code.
 
 ## Start and build
 - This command serves the app at `http://localhost:8080` and provides basic URL
