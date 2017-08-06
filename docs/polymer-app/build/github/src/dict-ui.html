@@ -4,6 +4,9 @@
 <!--********* Non UI imports-->
 <!--Used to query the dict api.-->
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<!--We listen to dynamically added DOM nodes in this element, so:-->
+<link rel="import" href="../bower_components/polymer/lib/utils/flattened-nodes-observer.html">
+
 
 <!--*************UI Related imports-->
 <!--We're using the drawer layout, so: -->
@@ -78,14 +81,14 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
       * TODO: Drawer does no longer appears on smalls mobile screens (linked with making it contain a scrolling region?).
       -->
       <app-drawer id="drawer" slot="drawer">
-        <app-header-layout has-scrolling-region="">
-          <app-header slot="header" condenses="" reveals="" effects="waterfall">
-            <app-toolbar>Result index</app-toolbar>
-          </app-header>
-          <template is="dom-repeat" items="[[dictEntries]]">
-            <dict-entry-link dict-entry="[[item]]"></dict-entry-link>
-          </template>
-        </app-header-layout>
+          <app-toolbar>Result index</app-toolbar>
+          <div style="height: 100%; overflow: auto;">
+            <template is="dom-repeat" items="[[dictEntries]]" id="dictEntryLinks">
+              <!--Alternatively: Could use path array element in the event captured by on-click="_scrollToEntry".-->
+              <dict-entry-link id="index__[[item._id]]" dict-entry="[[item]]" on-click="_scrollToEntry"></dict-entry-link>
+            </template>
+          </div>
+        
       </app-drawer>
 
       <!-- Main content
@@ -130,7 +133,7 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
         <!--The main part of the app, where dict definitions are shown.
         -->
         <template is="dom-repeat" items="[[dictEntries]]">
-          <dict-entry-view name="[[item._id]]" dict-entry="[[item]]"></dict-entry-view>
+          <dict-entry-view id="[[item._id]]" dict-entry="[[item]]"></dict-entry-view>
         </template>
       </app-header-layout>
     </app-drawer-layout>
@@ -159,15 +162,17 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
               };
           }
 
-          ready() {
-              super.ready();
-
-              // TODO: Not being received.
-              this.addEventListener('scroll-to-entry-intent', e => this._scrollToEntry(e));
-          }
-
+          // Listens to click on the result index links, and scrolls to the right dictionary entry.
           _scrollToEntry(e) {
-              console.log(e);
+              console.log(e.path);
+              var dictEntryLinks = e.path.filter(x => {
+                  return x.localName == "dict-entry-link";
+              });
+              if(dictEntryLinks.length > 0) {
+                  console.log(dictEntryLinks[0].dictEntry._id);
+                  console.log(Polymer.dom(this.root).querySelector(`[id="${dictEntryLinks[0].dictEntry._id}"]`));
+                  Polymer.dom(this.root).querySelector(`[id="${dictEntryLinks[0].dictEntry._id}"]`).scrollIntoView();
+              }
           }
 
           // This is called when the queryBox value is changed. headwordQueryApp is used to get headwords starting with the query.

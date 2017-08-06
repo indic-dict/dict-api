@@ -12,15 +12,6 @@
     <script>
         class DictEntryLink extends DictEntryView {
             static get is() { return 'dict-entry-link'; }
-            ready() {
-                super.ready();
-                this.addEventListener('click', e => this._scrollToEntry(e));
-            }
-            _scrollToEntry(e) {
-                var id = this.get("dictEntry")._id;
-                console.log("firing scroll-to-entry-intent");
-                this.dispatchEvent(new CustomEvent('scroll-to-entry-intent', {detail: {"id": id}}));
-            }
         }
 
         window.customElements.define(DictEntryLink.is, DictEntryLink);
