@@ -81,7 +81,7 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
       * TODO: There might also be a link to setting the user preferences and the like.
       * TODO: Drawer does no longer appears on smalls mobile screens (linked with making it contain a scrolling region?).
       -->
-      <app-drawer id="drawer" slot="drawer">
+      <app-drawer id="drawer" slot="drawer" swipeOpen>
           <app-toolbar>Result index</app-toolbar>
           <div style="height: 100%; overflow: auto;">
             <template is="dom-repeat" items="[[dictEntries]]" id="dictEntryLinks">
