@@ -96,7 +96,7 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
       * the header,
       * and the content page.
       -->
-      <app-header-layout has-scrolling-region="">
+      <app-header-layout>
         <app-header slot="header" condenses="" reveals="" effects="waterfall">
           <app-toolbar>
             <!--
@@ -130,11 +130,13 @@ Getting "lazy-import" working seems quite involved. So "import" for now.-->
           </app-toolbar>
         </app-header>
 
-        <!--The main part of the app, where dict definitions are shown.
-        -->
-        <template is="dom-repeat" items="[[dictEntries]]">
-          <dict-entry-view id="[[item._id]]" dict-entry="[[item]]"></dict-entry-view>
-        </template>
+        <div style="height: 100%; overflow: auto;">
+          <!--The main part of the app, where dict definitions are shown.
+          -->
+          <template is="dom-repeat" items="[[dictEntries]]">
+            <dict-entry-view id="[[item._id]]" dict-entry="[[item]]"></dict-entry-view>
+          </template>
+        </div>
       </app-header-layout>
     </app-drawer-layout>
   </template>

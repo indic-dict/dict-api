@@ -1,6 +1,9 @@
 # Use
 - Link: [here](https://sanskrit-coders.github.io/dict-api/polymer-app/build/github/), short url: <http://bit.ly/koshah> .
 
+# Screencast
+- GIF here.
+- [YT](https://www.youtube.com/watch?v=DmsfqP5nnEM) .
 
 # Development
 ## Setup
