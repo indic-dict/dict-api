@@ -11,7 +11,7 @@
     "iron-iconset-svg": "PolymerElements/iron-iconset-svg#^2.0.1",
     "iron-pages": "PolymerElements/iron-pages#^2.0.0",
     "polymer": "Polymer/polymer#^2.0.0-rc.3",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.3",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.6",
     "vaadin-combo-box": "^2.0.0-beta2",
     "iron-ajax": "^2.0.4",
     "paper-card": "PolymerElements/paper-card#^2.0.0",

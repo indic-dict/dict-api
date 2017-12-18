@@ -21,4 +21,4 @@
 ## Start and build
 - This command serves the app at `http://localhost:8080` and provides basic URL
 routing for the app: `polymer serve --open` or `polymer serve build/unbundled`
-- Build: `polymer build`
+- Build: ``bower install; polymer build`
