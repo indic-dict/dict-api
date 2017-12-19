@@ -50,7 +50,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      */
     class DomBind extends domBindBase {
 
-      static get observedAttributes() { return ['mutable-data'] }
+      static get observedAttributes() { return ['mutable-data']; }
 
       constructor() {
         super();
@@ -65,6 +65,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       connectedCallback() {
+        this.style.display = 'none';
         this.render();
       }
 
@@ -87,6 +88,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       /**
        * Forces the element to render its content. This is typically only
        * necessary to call if HTMLImports with the async attribute are used.
+       * @return {void}
        */
       render() {
         let template;
@@ -102,7 +104,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               } else {
                 throw new Error('dom-bind requires a <template> child');
               }
-            })
+            });
             observer.observe(this, {childList: true});
             return;
           }
@@ -124,6 +126,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
     customElements.define('dom-bind', DomBind);
+
+    Polymer.DomBind = DomBind;
 
   })();
 

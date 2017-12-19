@@ -63,11 +63,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     */
     static getFlattenedNodes(node) {
       if (isSlot(node)) {
-        return /** @type {HTMLSlotElement} */ (node).assignedNodes({flatten: true});
+        node = /** @type {HTMLSlotElement} */(node); // eslint-disable-line no-self-assign
+        return node.assignedNodes({flatten: true});
       } else {
-        return Array.from(node.childNodes).map(node => {
+        return Array.from(node.childNodes).map((node) => {
           if (isSlot(node)) {
-            return /** @type {HTMLSlotElement} */ (node).assignedNodes({flatten: true});
+            node = /** @type {HTMLSlotElement} */(node); // eslint-disable-line no-self-assign
+            return node.assignedNodes({flatten: true});
           } else {
             return [node];
           }
@@ -94,7 +96,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       /** @type {function()} */
       this._boundSchedule = () => {
         this._schedule();
-      }
+      };
       this.connect();
       this._schedule();
     }
@@ -103,6 +105,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      * Activates an observer. This method is automatically called when
      * a `FlattenedNodesObserver` is created. It should only be called to
      * re-activate an observer that has been deactivated via the `disconnect` method.
+     *
+     * @return {void}
      */
     connect() {
       if (isSlot(this._target)) {
@@ -130,6 +134,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      * the observer callback will not be called when changes to flattened nodes
      * occur. The `connect` method may be subsequently called to reactivate
      * the observer.
+     *
+     * @return {void}
      */
     disconnect() {
       if (isSlot(this._target)) {

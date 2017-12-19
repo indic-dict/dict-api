@@ -18,10 +18,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
    *
    * @memberof Polymer
    * @param {Polymer.Debouncer} debouncer Debouncer to enqueue
+   * @return {void}
    */
   Polymer.enqueueDebouncer = function(debouncer) {
     debouncerQueue.push(debouncer);
-  }
+  };
 
   function flushDebouncers() {
     const didFlush = Boolean(debouncerQueue.length);
@@ -43,6 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
    * - ShadyDOM distribution
    *
    * @memberof Polymer
+   * @return {void}
    */
   Polymer.flush = function() {
     let shadyDOM, debouncers;
@@ -53,7 +55,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       debouncers = flushDebouncers();
     } while (shadyDOM || debouncers);
-  }
+  };
 
 })();
 </script>

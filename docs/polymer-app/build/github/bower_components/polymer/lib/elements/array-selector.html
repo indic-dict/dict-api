@@ -103,11 +103,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             value: false
           }
 
-        }
+        };
       }
 
       static get observers() {
-        return ['__updateSelection(multi, items.*)']
+        return ['__updateSelection(multi, items.*)'];
       }
 
       constructor() {
@@ -220,7 +220,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // order: selected array index
         this.__selectedMap = new Map();
         // Initialize selection
-        this.selected = this.multi ? [] : null
+        this.selected = this.multi ? [] : null;
         this.selectedItem = null;
       }
 
@@ -267,6 +267,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        * Deselects the given item if it is already selected.
        *
        * @param {*} item Item from `items` array to deselect
+       * @return {void}
        */
       deselect(item) {
         let idx = this.__selectedMap.get(item);
@@ -289,6 +290,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        * Deselects the given index if it is already selected.
        *
        * @param {number} idx Index from `items` array to deselect
+       * @return {void}
        */
       deselectIndex(idx) {
         this.deselect(this.items[idx]);
@@ -299,6 +301,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        * deselect the item if already selected.
        *
        * @param {*} item Item from `items` array to select
+       * @return {void}
        */
       select(item) {
         this.selectIndex(this.items.indexOf(item));
@@ -309,6 +312,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        * deselect the item if already selected.
        *
        * @param {number} idx Index from `items` array to select
+       * @return {void}
        */
       selectIndex(idx) {
         let item = this.items[idx];
@@ -414,7 +418,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   class ArraySelector extends baseArraySelector {
     // Not needed to find template; can be removed once the analyzer
     // can find the tag name from customElements.define call
-    static get is() { return 'array-selector' }
+    static get is() { return 'array-selector'; }
   }
   customElements.define(ArraySelector.is, ArraySelector);
   Polymer.ArraySelector = ArraySelector;
