@@ -129,6 +129,6 @@ In the ideal case, we would have the following (from the view of simplicity) (in
 
 ## UI deployments
 * Polymer app
-  * See <polymer-app/README.md>.
+  * See [polymer-app/README.md](blob/master/docs/polymer-app/README.md).
 * You want to host copies (or even develop a superior UI?) and make things faster for folks in your geographical area? Just open an issue in this project and let us know. We'd love to list it here.
 
