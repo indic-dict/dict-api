@@ -1,21 +1,21 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/dict-ui.html",
+  "shell": "src/dict-ui.js",
   "fragments": [
-    "src/dict-entry-view.html"
+    "src/dict-entry-view.js"
   ],
   "sources": [
     "src/**/*",
     "images/**/*",
-    "bower.json",
+    "package.json",
     "index.html",
-    "src/dict-ui.html",
-    "src/dict-entry-view.html"
+    "src/dict-ui.js",
+    "src/dict-entry-view.js"
   ],
   "extraDependencies": [
     "bower_components/webcomponentsjs/*.js",
     "manifest.json",
-    "bower_components/webcomponentsjs/*.js"
+    "node_modules/@webcomponents/webcomponentsjs/**"
   ],
   "builds": [
     {
@@ -28,5 +28,8 @@
     "rules": [
       "polymer-2"
     ]
-  }
+  },
+  "npm": true,
+  "componentDir": "node_modules/",
+  "moduleResolution": "node"
 }
