@@ -130,7 +130,7 @@ In the ideal case, we would have the following (from the view of simplicity) (in
 ## UI deployments
 * You can use it right off github!
   * Polymer app
-    * Link: [here](https://sanskrit-coders.github.io/dict-api/polymer-app/build/github/), short url: <http://bit.ly/koshah> .
+    * Link: [here](https://indic-dict.github.io/dict-api/polymer-app/build/github/), short url: <http://rebrand.ly/koshah> .
     * See <polymer-app/README.md>.
 * You want to host copies (or even develop a superior UI?) and make things faster for folks in your geographical area? Just open an issue in this project and let us know. We'd love to list it here.
 
