@@ -1,59 +1,31 @@
 <!--Ah! Welcome. The entry point.--><!DOCTYPE html><html lang="en"><head>
-    <meta charset="utf-8">
-    <meta name="generator" content="Polymer Starter Kit">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-
-    <!--Haven't quite figured out how to work this. Perhaps I don't need to right now.-->
-    <!--<base href="/dict-api/polymer-app/build/github/">-->
-    <!--<base href="{{base}}">-->
-    <base href="">
-
-    <!--This is what's displayed on the browser's top bar.-->
-    <title>Polymer Dict UI</title>
-    <link rel="icon" href="images/favicon.ico">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--TOKNOW: What's this for, and who cares? Maybe google?-->
-    <meta name="description" content="Details at https://github.com/sanskrit-coders/dict-api/">
-
-
+    <meta name="description" content="Details at https://github.com/indic-dict/dict-api/">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#fff">
+<!--    <link rel="icon" href="manifest/favicon.ico">-->
     <!--******************** Homescreen icons and such.-->
     <!-- See https://goo.gl/OOhYW5
     Excerpt: "The Manifest for Web applications is a simple JSON file that gives you, the developer, the ability to control how your app appears to the user in the areas that they would expect to see apps (for example the mobile home screen), direct what the user can launch and, more importantly, how they can launch it. In the future the manifest will give you even more control over your app, but right now we are just focusing on how your app can be launched."
     -->
     <link rel="manifest" href="manifest.json">
-    <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Polymer Dict UI">
+<!--    <link rel="canonical" href="https://start-polymer3.firebaseapp.com/" />-->
+    <!--Haven't quite figured out how to work this. Perhaps I don't need to right now.-->
+    <!--<base href="/dict-api/polymer-app/build/github/">-->
+    <!--<base href="{{base}}">-->
 
-    <!-- Add to homescreen for Safari on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Polymer Dict UI">
-
-    <!-- Homescreen icons -->
-    <link rel="apple-touch-icon" href="images/manifest/icon-48x48.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="images/manifest/icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="96x96" href="images/manifest/icon-96x96.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="images/manifest/icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="images/manifest/icon-192x192.png">
-
-    <!-- Tile icon for Windows 8 (144x144 + tile color) -->
-    <meta name="msapplication-TileImage" content="images/manifest/icon-144x144.png">
-    <meta name="msapplication-TileColor" content="#3f51b5">
-    <meta name="msapplication-tap-highlight" content="no">
-
-    <!--******************** END: Homescreen icons and such.-->
-
-    <!-- A fancy android-chrome browser bar color option. See https://goo.gl/qRE0vM -->
-    <meta name="theme-color" content="#3f51b5">
-
+    <!--This is what's displayed on the browser's top bar.-->
+    <title>Polymer Dict UI</title>
+    
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs
     " a polyfill is code that implements a feature on web browsers that do not support the feature, thus acting as palliative software."
     -->
-    <script src="../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="./node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js" async=""></script>
 
     <!-- Load your application shell. You'll see it called below.-->
-    <script type="module" src="./src/dict-ui.js"></script>
+    <script type="module" src="./src/dict-ui.js" async=""></script>
 
     <!-- Add any global styles for body, document, etc. -->
     <style>
@@ -68,7 +40,7 @@
 </head>
 <body>
 <!--**************************** This is the main line! Finally! **************************************************
- Open dict-ui.html to see what happens.
+ Open dict-ui.js to see what happens.
 -->
 <dict-ui page-name="dict-entry-view"></dict-ui>
 <noscript>
